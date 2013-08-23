@@ -17,7 +17,8 @@ session_start();
  * under the License.
  */
 
-require '../src/facebook.php';
+require 'facebook_sdk/facebook.php';
+Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYPEER] = false;
 
 // Create our Application instance (replace this with your appId and secret).
 $facebook = new Facebook(array(
@@ -63,7 +64,8 @@ $naitik = $facebook->api('/naitik');
     <title></title>
   </head>
   <body>
-		<? if($user){//判斷是否有登入FB紀錄，有就直接抓值，沒有就要求重新登入
+		<?php 
+			if($user){//判斷是否有登入FB紀錄，有就直接抓值，沒有就要求重新登入
 				$_SESSION['userID'] = $user;//這裡的$user中為SDK抓取到的FB ID，存進SESSION中使回到login.php時可以進行判斷
 				$_SESSION['name'] = $user_profile['name'];//$user_profile為一個陣列變數，可從中取得許多會員基本資料，name為FB名稱
 				$_SESSION['logout'] = $logoutUrl;//$logoutUrl為SDK所設定好的專門登出網址，一樣是先把值存回login.php，因為登出的動作是在那個網頁執行
@@ -71,8 +73,9 @@ $naitik = $facebook->api('/naitik');
 				exit();//避免header後繼續執行網頁，用exit()強制結束
 			}else{
 				header('location:'.$loginUrl);//$loginUrl為SDK所設定好的專門登入網址，如果沒登入過FB就會直接執行這行header跳到FB登入，登入完跳回這後再跳到login.php
-			exit();
-		}?>
+				exit();
+			}
+		?>
 <? ob_end_flush(); ?>
   </body>
 </html>
