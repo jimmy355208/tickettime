@@ -69,6 +69,7 @@ $naitik = $facebook->api('/naitik');
 				$_SESSION['userID'] = $user;//這裡的$user中為SDK抓取到的FB ID，存進SESSION中使回到login.php時可以進行判斷
 				$_SESSION['name'] = $user_profile['name'];//$user_profile為一個陣列變數，可從中取得許多會員基本資料，name為FB名稱
 				$_SESSION['logout'] = $logoutUrl;//$logoutUrl為SDK所設定好的專門登出網址，一樣是先把值存回login.php，因為登出的動作是在那個網頁執行
+
 				header('location: login.php');//header()這個涵式為自動跳轉，在這網頁取得所有資料後，跳回login.php
 				exit();//避免header後繼續執行網頁，用exit()強制結束
 			}else{
