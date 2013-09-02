@@ -39,7 +39,7 @@ $user = $facebook->getUser();
 if ($user) {
   try {
     // Proceed knowing you have a logged in user who's authenticated.
-    $user_profile = $facebook->api('/me');
+    $user_profile = $facebook->api('/user');//取得資料的權限，me我個人資料，其他像是相簿、照片等還要在找其他權限
   } catch (FacebookApiException $e) {
     error_log($e);
     $user = null;
@@ -68,8 +68,6 @@ $naitik = $facebook->api('/naitik');
 			if($user){//判斷是否有登入FB紀錄，有就直接抓值，沒有就要求重新登入
 				$_SESSION['userID'] = $user;//這裡的$user中為SDK抓取到的FB ID，存進SESSION中使回到login.php時可以進行判斷
 				$_SESSION['name'] = $user_profile['name'];//$user_profile為一個陣列變數，可從中取得許多會員基本資料，name為FB名稱
-				$_SESSION['logout'] = $logoutUrl;//$logoutUrl為SDK所設定好的專門登出網址，一樣是先把值存回login.php，因為登出的動作是在那個網頁執行
-
 				header('location: login.php');//header()這個涵式為自動跳轉，在這網頁取得所有資料後，跳回login.php
 				exit();//避免header後繼續執行網頁，用exit()強制結束
 			}else{
